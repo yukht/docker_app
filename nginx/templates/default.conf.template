@@ -1,0 +1,10 @@
+  server {
+    server_name ${SERVER_NAME1};
+    listen ${PORT1};
+    error_page 500 502 503 504 /50x.html;
+    access_log /var/log/nginx/nginx.log;
+    location / {
+      root /usr/share;
+    }
+  }
+

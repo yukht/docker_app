@@ -1,6 +1,16 @@
 ---
 # tasks for install role
-- name: Copy file with owner and permission, using symbolic representation
+- name: Copy Docker and app files
   ansible.builtin.copy:
     src: files/srv
     dest: /
+
+- name: Change volume permissions
+  ansible.builtin.file:
+    path: /srv/app_vol
+    mode: '0775'
+
+- name: Change bash file permissions
+  ansible.builtin.file:
+    path: /srv/ex_remove_all.sh
+    mode: '0744'

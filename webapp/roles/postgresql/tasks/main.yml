@@ -31,7 +31,7 @@
       path: "/etc/postgresql/14/main/pg_hba.conf"
       insertafter: EOF
       line: "host    all             all             172.17.0.0/24            trust"
-    notify: "reload postgresql service"
+    notify: "restart postgresql service"
 
   - name: Install pip
     apt: 

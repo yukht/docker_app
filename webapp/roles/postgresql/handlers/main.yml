@@ -4,4 +4,4 @@
     ansible.builtin.service:
       name: postgresql
       state: restarted
-    listen: "reload postgresql service"
+    listen: "restart postgresql service"

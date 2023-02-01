@@ -5,7 +5,7 @@
     src: files/srv
     dest: /
 
-- name: Change volume permissions
+- name: Create volume and change permissions
   ansible.builtin.file:
     path: /srv/app_vol
     mode: '0775'

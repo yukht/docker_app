@@ -1,0 +1,52 @@
+---
+# tasks for postgresql role
+
+  - name: Add postgresql GPG apt key
+    apt_key:
+      url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+      state: present
+
+  - name: install postgresql-14
+    apt: 
+      name: "postgresql-14"
+      update_cache: yes
+
+  # - name: Drop postgresql
+  #   apt: 
+  #     name: postgresql-*
+  #     update_cache: yes
+  #     state: absent
+  #     clean: yes
+  #     purge: yes
+
+  - name: Edit postgresql.conf for listen to all network intefraces
+    lineinfile:
+      path: "/etc/postgresql/14/main/postgresql.conf"
+      insertafter: '^#listen_addresses'
+      line: "listen_addresses = '0.0.0.0'"
+
+  - name: Edit pg_hba.conf for allow connect from containers (bridge)
+    lineinfile:
+      path: "/etc/postgresql/14/main/pg_hba.conf"
+      insertafter: EOF
+      line: "host    all             all             172.0.0.0/24            trust"
+    notify: "reload postgresql service"
+
+  - name: Create the database specified in vars
+    become_user: postgres
+    postgresql_db: name=web
+      template='template0'
+      state=present
+
+   - name: Ensure user has access to the new database
+     become_user: postgres
+     postgresql_user: db=web
+        name=web
+        password=qwerty123
+        priv=ALL
+        state=present
+   - name: Ensure user does not have unnecessary permissions
+     become_user: postgres
+     postgresql_user: name=web
+        role_attr_flags=NOSUPERUSER,NOCREATEDB
+        state=present

@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  app:
+    container_name: web_py
+    image: img_web_py:1.0
+    build:
+      context: /srv
+      dockerfile: /srv/build/Dockerfile
+    stdin_open: true
+    volumes:
+      - 'app_vol:/srv/app'
+    ports:
+      - 80:5000
+    environment:
+      - HOSTNAME=web-py
+    network_mode: bridge    # prevent creating new network (host address 172.17.0.1 is specified in the app config)
+volumes:
+  app_vol:
+    driver: local
+    driver_opts:
+      type: 'volume'
+      o: 'bind'
+      device: '/srv/app_vol'

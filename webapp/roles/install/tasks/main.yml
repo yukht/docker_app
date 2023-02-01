@@ -1,0 +1,6 @@
+---
+# tasks for install role
+- name: Copy file with owner and permission, using symbolic representation
+  ansible.builtin.copy:
+    src: files/srv
+    dest: /srv

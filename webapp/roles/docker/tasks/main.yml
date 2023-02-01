@@ -25,7 +25,7 @@
           state: restarted
           enabled: yes
 
-      - name: Install docker-ce
+      - name: Install docker-compose
         apt:
           name: docker-compose
           state: latest

@@ -31,7 +31,6 @@
       path: "/etc/postgresql/14/main/pg_hba.conf"
       insertafter: EOF
       line: "host    all             all             172.17.0.0/24            trust"
-    notify: "restart postgresql service"
 
   - name: Install pip
     apt: 
@@ -69,3 +68,9 @@
     postgresql_user: name=web
       role_attr_flags=NOSUPERUSER,NOCREATEDB
       state=present
+
+  - name: Restart postgresql
+    ansible.builtin.service:
+      name: postgresql
+      state: restarted
+

@@ -1,6 +1,6 @@
 ---
 # handlers file for postgresql
-  - name: Reload postgresql
+  - name: Restart postgresql
     ansible.builtin.service:
       name: postgresql
       state: restarted

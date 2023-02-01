@@ -9,7 +9,7 @@
   ansible.builtin.file:
     path: /srv/app_vol
     mode: '0775'
-    state: present
+    state: directory
 
 - name: Change bash file permissions
   ansible.builtin.file:

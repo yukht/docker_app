@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+  web:
+    container_name: nginx
+    image: nginx:1.22-alpine
+    stdin_open: true
+    extra_hosts:
+      - "php-fpm:172.18.0.3"
+    ports:
+      - 80:80
+    volumes:
+      - 'web_logs:/var/log/nginx'
+      - 'web_templates:/etc/nginx/templates'
+      - 'php_data:/var/www'
+    environment:
+      - SERVER_NAME=web
+      - PORT=80
+    networks:
+      phpnet:
+        ipv4_address: 172.18.0.2
+
+  php-fpm:
+    container_name: php-fpm
+    image: php-fpm-7.4-custom:0.1        # create new image base from php:7.4-fpm
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    stdin_open: true
+    volumes:
+      - 'php_data:/var/www'
+    networks:
+      phpnet:
+        ipv4_address: 172.18.0.3
+
+networks:
+  phpnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+
+volumes:
+  web_logs:
+    driver: local
+    driver_opts:
+      type: 'volume'
+      o: 'bind'
+      device: './logs'
+  php_data:
+    driver: local
+    driver_opts:
+      type: 'volume'
+      o: 'bind'
+      device: './data'
+  web_templates:
+    driver: local
+    driver_opts:
+      type: 'volume'
+      o: 'bind'
+      device: './templates'

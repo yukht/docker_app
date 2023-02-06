@@ -26,6 +26,13 @@ services:
       context: ./build
       dockerfile: Dockerfile
     stdin_open: true
+    env_file:
+      - env_host_ip.env
+    healthcheck:
+      test: curl --fail http://$$host_ip || exit 1
+      interval: 5s
+      timeout: 15s
+      retries: 5
     volumes:
       - 'php_data:/var/www'
     networks:

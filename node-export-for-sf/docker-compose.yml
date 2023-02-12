@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  nodejs:
+    container_name: node1
+    hostname: node1
+    image: test-nodejs-img:0.1
+    build:
+      context: ./build
+      dockerfile: Dockerfile    
+    network_mode: bridge    # prevent creating new network

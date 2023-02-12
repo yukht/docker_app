@@ -3,7 +3,7 @@ services:
   redis:
     container_name: redis
     hostname: redis
-    image: redis:6.2.10
+    image: myDockerImage:0.1
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       timeout: 5s
@@ -11,12 +11,6 @@ services:
     restart: unless-stopped
     stdin_open: true
     network_mode: bridge    # prevent creating new network
-
-    # volumes:
-      # - 'web_logs:/var/log/nginx'
-    # environment:
-    #   - SERVER_NAME=web
-    #   - PORT=80
 
   web_py:
     container_name: web_py
@@ -38,12 +32,4 @@ services:
     network_mode: bridge    # prevent creating new network
     links:
       -  "redis"
-
-# volumes:
-#   web_logs:
-#     driver: local
-#     driver_opts:
-#       type: 'volume'
-#       o: 'bind'
-#       device: './logs'
 

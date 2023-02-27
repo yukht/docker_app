@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  jenkins:
+    container_name: jenkins1
+    hostname: jenkins
+    image: jenkins/jenkins:lts-jdk11
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - 'jenkins_home:/var/jenkins_home'
+    stdin_open: true
+    network_mode: bridge    # prevent creating new network
+
+ volumes:
+   jenkins_home:
+     driver: local
+     driver_opts:
+       type: 'volume'
+       o: 'bind'
+       device: './jenkins_home'

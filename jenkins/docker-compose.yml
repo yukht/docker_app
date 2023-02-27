@@ -13,10 +13,10 @@ services:
     stdin_open: true
     network_mode: bridge    # prevent creating new network
 
- volumes:
-   jenkins_home:
-     driver: local
-     driver_opts:
-       type: 'volume'
-       o: 'bind'
-       device: './jenkins_home'
+volumes:
+  jenkins_home:
+    driver: local
+    driver_opts:
+      type: 'volume'
+      o: 'bind'
+      device: './jenkins_home'
